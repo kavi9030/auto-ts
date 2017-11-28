@@ -134,10 +134,13 @@ def connect_mol_mut(molecule, mutation, bond):
 
     a = angle(mol[h], mol[c], mut[1])
     p = rotation_vector(mol[h], mol[c], mut[1])
+    b1 = mol[h] - mol[c]
+    r  = np.random.uniform(0,2*np.degrees(np.pi),size=5)
 
     for i, x in enumerate(mut):
 
         mut[i] = rotate(x, p, a, center=mol[c])
+        mut[i] = rotate(x, b1, r, center=mol[c])
 
     return mut
 
