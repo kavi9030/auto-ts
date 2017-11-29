@@ -22,37 +22,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-class Molecule:
-        
-    def __init__(self, filename):
+from autots import Molecule
+from autots import Mutation
+from autots import connect
 
-        f = open(filename, "r")
-        lines = f.readlines()
+import random
+
+if __name__=="__main__":
+
+    mol = Molecule("examples/diels-alder.xyz")
+
+    muts = [Mutation("mutations/8.xyz")]
+
+
+    unique_structures =  []
+
+    n = 2 
+    new_bonds = random.sample(mol.bonds,n)
+    new_muts = [random.choice(muts)for _ in range (n)]  
+
+    for i in range(1):
+
+        output = connect(mol,new_muts, new_bonds,n)
+
+        filename = "TS%03i.xyz" % (i + 1)
+        f = open(filename, "w")
+        f.write(output)
         f.close()
 
-        self.bonds = []
-        self.reac_xyz = []
-        self.prod_xyz = []
-        self.atoms = []
-        self.natoms = int(lines[0])
-
-        for i, line in enumerate(lines): 
-
-            if "$BONDS" in line:
-
-                tokens = line.split()
-                bond_string = "".join(tokens[1:])
-                self.bonds = eval(bond_string)
-
-        # print "Reactant coordinates:"
-        for i, line in enumerate(lines[2:2+self.natoms]):
-
-            tokens = line.split()
-            #print "%4i:" % (i+1), line,
-
-            self.atoms.append(tokens[0])
-            x = float(tokens[1])
-            y = float(tokens[2])
-            z = float(tokens[3])
-            self.reac_xyz.append([x,y,z])
-
+        

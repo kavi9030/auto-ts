@@ -88,8 +88,9 @@ def connect(mol, muts, bonds,n):
     for i, xyz in enumerate(mol.reac_xyz):
 
         if i not in del_hydrogens :
-	    molspp = np.array (mol.atoms[i], dtype='string')
-	    molxyz =  np.array([xyz[0],xyz[1],xyz[2]],dtype='float')
+	    spp = np.array (mol.atoms[i], dtype='string')
+	    xyz_mol =  np.array([xyz[0],xyz[1],xyz[2]],dtype='float')
+            print spp,xyz_mol
             output += "\n %-2s    %20.14f %20.14f %20.14f" % \
                 (mol.atoms[i], xyz[0],  xyz[1], xyz[2])
    
@@ -98,16 +99,12 @@ def connect(mol, muts, bonds,n):
         mut_xyz = connect_mol_mut(mol.reac_xyz, mut.xyz, bonds[b])
 
         for i in range(1, mut.natoms):
-
-	    mutspp = np.array (mut.atoms[i], dtype='string')
-	    mutxyz = np.array ([mut_xyz[i][0],mut_xyz[i][1], mut_xyz[i][2]], dtype ='float')
-            xyz = np.concatenate ([molxyz,mutxyz], axis=0)
-	    print xyz
- 
+            np.insert(spp, (mut.atoms[i]),axis=1)
+	    print spp
 	    output += "\n %-2s    %20.14f %20.14f %20.14f" % \
             	(mut.atoms[i], mut_xyz[i][0],mut_xyz[i][1], mut_xyz[i][2])
 
-            Fail = True
+    Fail = True
     
     #while F  ail:
 #	for i in range (n):

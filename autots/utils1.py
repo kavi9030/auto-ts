@@ -73,9 +73,8 @@ def angle(a,b,c):
     return np.arccos(dot_product)
 
 
-def connect(mol, muts, bonds,n):
-    
-    print "n=", n
+def connect(mol, muts, bonds):
+
     natoms = mol.natoms 
     for mut in muts:
         natoms += mut.natoms - 2
@@ -88,8 +87,6 @@ def connect(mol, muts, bonds,n):
     for i, xyz in enumerate(mol.reac_xyz):
 
         if i not in del_hydrogens :
-	    molspp = np.array (mol.atoms[i], dtype='string')
-	    molxyz =  np.array([xyz[0],xyz[1],xyz[2]],dtype='float')
             output += "\n %-2s    %20.14f %20.14f %20.14f" % \
                 (mol.atoms[i], xyz[0],  xyz[1], xyz[2])
    
@@ -98,25 +95,13 @@ def connect(mol, muts, bonds,n):
         mut_xyz = connect_mol_mut(mol.reac_xyz, mut.xyz, bonds[b])
 
         for i in range(1, mut.natoms):
-
-	    mutspp = np.array (mut.atoms[i], dtype='string')
-	    mutxyz = np.array ([mut_xyz[i][0],mut_xyz[i][1], mut_xyz[i][2]], dtype ='float')
-            xyz = np.concatenate ([molxyz,mutxyz], axis=0)
-	    print xyz
- 
-	    output += "\n %-2s    %20.14f %20.14f %20.14f" % \
-            	(mut.atoms[i], mut_xyz[i][0],mut_xyz[i][1], mut_xyz[i][2])
-
-            Fail = True
-    
-    #while F  ail:
-#	for i in range (n):
-#		for j in range (i+1,n):
-#			for k in mut[i]:
-			#	for l in ra
-
+            output += "\n %-2s    %20.14f %20.14f %20.14f" % \
+                (mut.atoms[i], mut_xyz[i][0],mut_xyz[i][1], mut_xyz[i][2])
 
     return output
+
+
+
 
 def connect_mol_mut(molecule, mutation, bond):
     """Sets the XYZ coodinates of the Mutator so they match the bond
@@ -134,13 +119,18 @@ def connect_mol_mut(molecule, mutation, bond):
 
     a = angle(mol[h], mol[c], mut[1])
     p = rotation_vector(mol[h], mol[c], mut[1])
+ 
     b1 = mol[h] - mol[c]
  
+ #   print p.shape, b1.shape
     r  = np.random.uniform(0,360)
 
     for i, x in enumerate(mut):
 
+#        print "mut", mut[i].shape, "x", x.shape, "p", p.shape, "a", a.shape
         mut[i] = rotate(x, p, a, center=mol[c])
+  
+#        print "mut", mut[i].shape, "b1", b1.shape, "r", r.shape
         mut[i] = rotate(mut[i], b1,r, center=mol[c])
 
     return mut
