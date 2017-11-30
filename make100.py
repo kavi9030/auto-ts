@@ -22,9 +22,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from autots import Molecule
-from autots import Mutation
-from autots import connect
+#from autots import Molecule
+#from autots import Mutation
+#from autots import connect
+
+from molecule import Molecule
+from mutation import Mutation
+from utils import connect
 
 import random
 
@@ -32,17 +36,20 @@ if __name__=="__main__":
 
     mol = Molecule("examples/diels-alder.xyz")
 
-    muts = [Mutation("mutations/cn.xyz"),
-            Mutation("mutations/cooh.xyz"),
-            Mutation("mutations/nh2.xyz"),
-            Mutation("mutations/oh.xyz")]
+    muts = [Mutation("mutations/8.xyz"),
+            #Mutation("mutations/cn.xyz"),
+            #Mutation("mutations/cooh.xyz"),
+            #Mutation("mutations/nh2.xyz"),
+            #Mutation("mutations/oh.xyz")
+            ]
 
     unique_structures =  []
 
     for i in range(100):
-
+        print('Generating',i,'...')
         # How many mutations?
-        n = random.randint(1, 3)
+        #n = random.randint(1, 3)
+        n = 6
 
         # Which n bonds?
         new_bonds = random.sample(mol.bonds, n)
@@ -50,7 +57,7 @@ if __name__=="__main__":
         # Which n mutations?
         new_muts = [random.choice(muts) for _ in range(n)]
 
-        output = connect(mol, new_muts, new_bonds)
+        output = connect(mol, new_muts, new_bonds, 1.7)
 
         filename = "initial%04i.xyz" % (i + 1)
         f = open(filename, "w")
