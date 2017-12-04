@@ -36,7 +36,7 @@ if __name__=="__main__":
 
     mol = Molecule("examples/diels-alder.xyz")
 
-    muts = [Mutation("mutations/8.xyz"),
+    muts1 = [Mutation("mutations/8.xyz"),
             #Mutation("mutations/cn.xyz"),
             #Mutation("mutations/cooh.xyz"),
             #Mutation("mutations/nh2.xyz"),

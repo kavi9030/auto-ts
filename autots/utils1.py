@@ -123,7 +123,7 @@ def connect_mol_mut(molecule, mutation, bond):
     b1 = mol[h] - mol[c]
  
  #   print p.shape, b1.shape
-    r  = np.random.uniform(0,360)
+    #r  = np.random.uniform(0,360)
 
     for i, x in enumerate(mut):
 
@@ -131,7 +131,7 @@ def connect_mol_mut(molecule, mutation, bond):
         mut[i] = rotate(x, p, a, center=mol[c])
   
 #        print "mut", mut[i].shape, "b1", b1.shape, "r", r.shape
-        mut[i] = rotate(mut[i], b1,r, center=mol[c])
+        #mut[i] = rotate(mut[i], b1,r, center=mol[c])
 
     return mut
 
